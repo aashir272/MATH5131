@@ -1,0 +1,90 @@
+\documentclass[
+	12pt
+]{article}
+
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{enumerate}
+
+
+\title{Modeling Population Dynamics in a Zombie Apocalypse with Dynamical Systems Theory} % Should probably change this
+
+\date{\today}
+
+\author{Harris Bubalo, Lea Luchterhand, Aashir Naqvi}
+
+\begin{document}
+
+\maketitle
+
+\section{Motivation}
+
+This report focuses on developing a simple model to to understand the popuation dynamics of the human race in the event of a zombie apocalypse. We model the evolution of three different sub-populations; susceptible humans, immune humans, and zombies. The focus will be on using simple assumptions to model the problem in a tractable manner, and then investigating the behavior of the system under different perturbations of the parameters of interest.
+
+ \section{Problem Definition}
+
+We will start with a few basic assumptions. Some portion of the human population has been infected with the zombie virus, the origins of which are unknown. All humans are susceptible to being infected by the virus in the beginning. In preparation for such an event, a vaccine was developed pre-emptively and vaccination sites have been set up all over the globe. However, vaccine production and distribution is limited so only a fraction of the population can be vaccinated at any given time. Additionally, vaccinations only work pre-emptively. Once infected by the virus, a person can never be cured. Once vaccinated however, a person can not be infected again. Additionally, no human born into the system has natural immunity.
+
+The infected population is drawn to uninfected humans and passes on the virus at a certain rate. Zombies are only interested in passing on the virus, and do not kill any humans as part of their attack. Humans on the other hand do hunt zombies and successfully eliminate them at a certain rate. 
+
+Under these assumptions, we will now model evolutionary dynamics of each sub-population using a compartmental model approach. Going forward $H$ will represent the number of susceptible humans, $I$ will represent the number of immune humans, and $Z$ will represent the number of infected humans.
+
+\subsection{Susceptible Humans}
+
+% Add compartmental diagram here
+
+The rate of change of a population is given by the by:
+
+\begin{equation}
+net \, rate = rate \, in - rate \, out
+\end{equation}
+
+The rate in is the natural birth rate of humans denoted by $a$. The rate out has a few components:
+
+\begin{itemize}
+\item The natural death rate of humans denoted as $b_H$.
+\item Increased death rate as a function of population size due to competition for limited resources. We model this as a linear dependence $K(H+I)$
+\item The vaccination rate of susceptible humans $c_I$.
+\item The infection rate of susceptible humans. This is a function of the number of infected humans in the system $c_zZ$
+
+The rate equation becomes:
+
+\begin{equation}
+\frac{dH}{dt} = (a-b_H-c_I-K(H+I)-c_zZ)H
+\end{equation}
+
+If we let the $r = a-b_H$, the above can be simplified as:
+
+\begin{equation}
+\frac{dH}{dt} = H(r - c_I-K(H+I))-c_zHZ
+\end{equation}
+\end{itemize}
+
+\subsection{Immune Humans}
+
+For immune humans we assume the same natural birth and death rates as susceptible humans. The population equation becomes:
+
+\begin{equation}
+\frac{dI}{dt} = (a-b_H-K(H+I))I
+\end{equation}
+
+Which can be written as:
+\begin{equation}
+\frac{dI}{dt} = I(r-K(H+I))
+\end{equation}
+
+\subsection{Infected Humans}
+
+For infected humans, the birth rate is the infection rate of new humans $c_ZH$. The death rate is the rate at which they are hunted by humans which is a function of the human population. Denote this as $b_z(H+I)$. The population dynamics are then given by:
+
+\begin{equation}
+\frac{dZ}{dt} = (c_ZH-b_Z(H+I))Z
+\end{equation}
+
+
+
+
+
+\end{document}
