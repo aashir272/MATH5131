@@ -7,6 +7,30 @@
 \usepackage{booktabs}
 \usepackage{listings}
 \usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage{commath}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{tikz-timing}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{xstring}
+\usepackage{listings}
+\usepackage[final]{pdfpages}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage[english]{cleveref}
+\usepackage{bm}
+\usepackage{wasysym}
+\usepackage{stmaryrd}
+
+
 
 
 \title{Modeling Population Dynamics in a Zombie Apocalypse with Dynamical Systems Theory} % Should probably change this
@@ -45,20 +69,20 @@ The rate in is the natural birth rate of humans denoted by $a$. The rate out has
 
 \begin{itemize}
 \item The natural death rate of humans denoted as $b_H$.
-\item Increased death rate as a function of population size due to competition for limited resources. We model this as a linear dependence $K(H+I)$
+\item Increased death rate as a function of population size due to competition for limited resources. We model this as a linear dependence $\gamma(H+I)$
 \item The vaccination rate of susceptible humans $c_I$.
 \item The infection rate of susceptible humans. This is a function of the number of infected humans in the system $c_zZ$
 
 The rate equation becomes:
 
 \begin{equation}
-\frac{dH}{dt} = (a-b_H-c_I-K(H+I)-c_zZ)H
+\frac{dH}{dt} = (a-b_H-c_I-\gamma(H+I)-c_zZ)H
 \end{equation}
 
 If we let the $r = a-b_H$, the above can be simplified as:
 
 \begin{equation}
-\frac{dH}{dt} = H(r - c_I-K(H+I))-c_zHZ
+\frac{dH}{dt} = H(r - c_I-\gamma(H+I))-c_zHZ
 \end{equation}
 \end{itemize}
 
@@ -67,12 +91,12 @@ If we let the $r = a-b_H$, the above can be simplified as:
 For immune humans we assume the same natural birth and death rates as susceptible humans. The population equation becomes:
 
 \begin{equation}
-\frac{dI}{dt} = (a-b_H-K(H+I))I
+\frac{dI}{dt} = (a-b_H-\gamma(H+I))I
 \end{equation}
 
 Which can be written as:
 \begin{equation}
-\frac{dI}{dt} = I(r-K(H+I))
+\frac{dI}{dt} = I(r-\gamma(H+I))
 \end{equation}
 
 \subsection{Infected Humans}
@@ -83,8 +107,78 @@ For infected humans, the birth rate is the infection rate of new humans $c_ZH$. 
 \frac{dZ}{dt} = (c_ZH-b_Z(H+I))Z
 \end{equation}
 
+\section{Appendix}
+	\subsection{Analyzing the system analytically}
+		\subsubsection{Validity of the model}
+			For different extreme scenarios the system of equations still appears to be valid:
+			Let $H= 0$, then 
+			\begin{align*}
+				\frac{dH}{dt} &=0\\
+				\frac{dI}{dt} &= I(r-\gamma I)\\
+				\frac{dZ}{dt} &= -b_z IZ
+			\end{align*}
+			For $I=0$
+			\begin{align*}
+				\frac{dH}{dt} &= H(r-c_I-\gamma H)-c_z HZ\\
+				\frac{dI}{dt} &= c_IH\\
+				\frac{dZ}{dt} & Z(c_ZH-b_ZH)
+			\end{align*}
+			For $Z=0$
+			\begin{align*}
+				\frac{dH}{dt} &= H(r-c_I-\gamma H)\\
+				\frac{dI}{dt} &= I(r-\gamma(H+I))+c_iH \\
+				\frac{dZ}{dt} &= 0
+			\end{align*}
+			All three situations appear to be plausible.
+		\subsubsection{Finding the equilibrium solutions}
+			Excluding the trivial solution (0,0,0) and assuming that $I_0=0$ in all scenarios, there are two potential equilibrium solutions.\\
+			The first can be determined as follows:		
+			\begin{align*}
+				\frac{dZ}{dt}= 0 &= Z (c_ZH-b_z(H+I))\\
+				\Leftrightarrow 0 &= c_ZH-b_z(H+I) \\
+				\Leftrightarrow I &= H \left(\frac{c_z-b_z}{b_z}\right)
+			\end{align*}
+				For simplicity let $d_z = \left(\frac{c_z-b_z}{b_z}\right)$
+			\begin{align*}
+				\frac{dI}{dt}= 0 &= I(r-\gamma(H+I))+c_IH \\
+				\Leftrightarrow 0&= H d_z \left(r-\gamma \left(H+d_Z\right)\right)+c_I H\\
+				\Leftrightarrow 0&= -H^2\gamma d_z(1+d_z) + H\left(d_zr+ c_I\right) \\ 
+				\Leftrightarrow 0&= -H \gamma d_z\left(1+d_z\right) +d_z r+ c_I \\
+				\Leftrightarrow H &= \frac{d_z +c_I}{\gamma d_z(1+d_z)} \\
+				\Rightarrow I &=  \frac{d_z +c_I}{\gamma (1+d_z)} 
+			\end{align*}
 
-
+			\begin{align*}
+				\frac{dH}{dt} = 0 &= H(r-c_I-\gamma(H+I)-c_zZ) \\
+				\Leftrightarrow 0&= r-c_I -\gamma (H+I)-c_z Z\\
+				\Leftrightarrow 0 &= r-c_I - \gamma \left( \frac{d_z +c_I}{\gamma d_z(1+d_z)} +  \frac{d_z +c_I}{\gamma (1+d_z)} \right) - c_Z Z \\
+				\Leftrightarrow Z &= \frac{d_Z(r-c_I-1)-c_I}{d_Z c_Z} \\
+				\Leftrightarrow Z &= \frac{(c_z-b_z)(r-c_z-1)-b_Zc_I}{(c_z-b_z)c_z}
+			\end{align*}
+			To see whether this point is stable for Z:
+			\begin{align*}
+				\left(\frac{dZ}{dt}\right)'= c_Z H -b_Z(H+I) &= 0\\
+				\Leftrightarrow c_Z H - b_Z H-b_ZI &= 0\\
+				\Leftrightarrow \frac{d_Z+c_I}{\gamma d_Z(d_Z+1)}(c_Z-b_Z) - b_Z \frac{d_Z+c_I}{\gamma(d_z+1)} &= 0\\
+				\Leftrightarrow \frac{d_z+c_I}{\gamma d_z(d_z+1)} (c_Z-b_Z) &= b_Z \frac{d_z+C_I}{\gamma (d_Z+1)}\\
+				\Leftrightarrow \frac{1}{d_Z} (c_Z-b_z) &= b_Z\\
+				\Leftrightarrow \frac{1}{\frac{c_z-b_z}{b_z}}(c_z-b_z) &= b_Z\\
+				\Leftrightarrow b_Z &= b_Z 
+			\end{align*}
+			Thus, the point is a saddle point.
+			The second equilibrium solution for H=0 and $I \neq 0$:
+			\begin{align*}
+				\frac{dH}{dt} &=0\\
+				\Rightarrow \frac{dI}{dt} &= I(r-\gamma I) = 0 \\
+				\Leftrightarrow I &= \frac{r}{\gamma}
+				\frac{dZ}{dt} &= -b_z IZ = -b_Z\frac{r}{\gamma}Z &= 0 \\
+				\Rightarrow Z = 0
+			\end{align*}
+			This is assuming all other variables are not zero.
+			\begin{align*}
+				\left(\frac{dI}{dt}\right)' = r- 2\gamma \frac{r}{\gamma} &= -r 
+			\end{align*}
+			Assuming $r>0$ this implies $\left(0,\frac{r}{\gamma}, 0\right)$ is a stable solution.
 
 
 \end{document}
