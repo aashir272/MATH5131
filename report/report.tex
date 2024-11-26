@@ -40,145 +40,169 @@
 \author{Harris Bubalo, Lea Luchterhand, Aashir Naqvi}
 
 \begin{document}
-
 \maketitle
-
+\pagebreak
+\tableofcontents
+\pagebreak
 \section{Motivation}
-
 This report focuses on developing a simple model to to understand the popuation dynamics of the human race in the event of a zombie apocalypse. We model the evolution of three different sub-populations; susceptible humans, immune humans, and zombies. The focus will be on using simple assumptions to model the problem in a tractable manner, and then investigating the behavior of the system under different perturbations of the parameters of interest.
-
- \section{Problem Definition}
-
-We will start with a few basic assumptions. Some portion of the human population has been infected with the zombie virus, the origins of which are unknown. All humans are susceptible to being infected by the virus in the beginning. In preparation for such an event, a vaccine was developed pre-emptively and vaccination sites have been set up all over the globe. However, vaccine production and distribution is limited so only a fraction of the population can be vaccinated at any given time. Additionally, vaccinations only work pre-emptively. Once infected by the virus, a person can never be cured. Once vaccinated however, a person can not be infected again. Additionally, no human born into the system has natural immunity.
+\section{Problem Definition}
+We will start with a few basic assumptions. Some portion of the human population has been infected with the zombie virus, the origins of which are unknown. All humans are susceptible to being infected by the virus in the beginning. In preparation for such an event, a vaccine was developed pre-emptively and vaccination sites have been set up all over the globe. However, vaccine production and distribution is limited so only a fraction of the population can be vaccinated at any given time. Additionally, vaccinations only work pre-emptively. Once infected by the virus, a person can never be cured. Once vaccinated however, a person can not be infected again. Additionally, immune human beings give birth to immune human beings.
 
 The infected population is drawn to uninfected humans and passes on the virus at a certain rate. Zombies are only interested in passing on the virus, and do not kill any humans as part of their attack. Humans on the other hand do hunt zombies and successfully eliminate them at a certain rate. 
 
 Under these assumptions, we will now model evolutionary dynamics of each sub-population using a compartmental model approach. Going forward $H$ will represent the number of susceptible humans, $I$ will represent the number of immune humans, and $Z$ will represent the number of infected humans.
 
 \subsection{Susceptible Humans}
-
 % Add compartmental diagram here
-
 The rate of change of a population is given by the by:
-
 \begin{equation}
 net \, rate = rate \, in - rate \, out
 \end{equation}
-
 The rate in is the natural birth rate of humans denoted by $a$. The rate out has a few components:
-
 \begin{itemize}
 \item The natural death rate of humans denoted as $b_H$.
 \item Increased death rate as a function of population size due to competition for limited resources. We model this as a linear dependence $\gamma(H+I)$
 \item The vaccination rate of susceptible humans $c_I$.
 \item The infection rate of susceptible humans. This is a function of the number of infected humans in the system $c_zZ$
-
+\end{itemize}
 The rate equation becomes:
-
 \begin{equation}
 \frac{dH}{dt} = (a-b_H-c_I-\gamma(H+I)-c_zZ)H
 \end{equation}
-
 If we let the $r = a-b_H$, the above can be simplified as:
-
 \begin{equation}
 \frac{dH}{dt} = H(r - c_I-\gamma(H+I))-c_zHZ
 \end{equation}
-\end{itemize}
 
 \subsection{Immune Humans}
-
-For immune humans we assume the same natural birth and death rates as susceptible humans. The population equation becomes:
+For immune humans we assume the same natural birth and death rates as susceptible humans. There is also an additional influx of immune human beings from vaccinations. The population equation becomes:
 
 \begin{equation}
-\frac{dI}{dt} = (a-b_H-\gamma(H+I))I
-\end{equation}
-
-Which can be written as:
-\begin{equation}
-\frac{dI}{dt} = I(r-\gamma(H+I))
+\frac{dI}{dt} = c_IH+(a-b_H-\gamma(H+I))I
 \end{equation}
 
 \subsection{Infected Humans}
-
 For infected humans, the birth rate is the infection rate of new humans $c_ZH$. The death rate is the rate at which they are hunted by humans which is a function of the human population. Denote this as $b_z(H+I)$. The population dynamics are then given by:
 
 \begin{equation}
 \frac{dZ}{dt} = (c_ZH-b_Z(H+I))Z
 \end{equation}
 
-\section{Appendix}
+\section{Stability Analysis}
 	\subsection{Analyzing the system analytically}
 		\subsubsection{Validity of the model}
-			For different extreme scenarios the system of equations still appears to be valid:
-			Let $H= 0$, then 
+			A useful way to analyze this system is to look at the values of any two variables holding the third constant or zero.
+			Let $H= 0$, then:
 			\begin{align*}
 				\frac{dH}{dt} &=0\\
-				\frac{dI}{dt} &= I(r-\gamma I)\\
+				\frac{dI}{dt} &= I(a-b_H-\gamma I)\\
 				\frac{dZ}{dt} &= -b_z IZ
 			\end{align*}
-			For $I=0$
+			In this case, the immune population will reach carrying capacity over time and the zombie population will decline to zero as they are being hunted. \\
+			For $I=0$:
 			\begin{align*}
 				\frac{dH}{dt} &= H(r-c_I-\gamma H)-c_z HZ\\
 				\frac{dI}{dt} &= c_IH\\
-				\frac{dZ}{dt} & Z(c_ZH-b_ZH)
-			\end{align*}
-			For $Z=0$
+				\frac{dZ}{dt} &= Z(c_ZH-b_ZH)
+			\end{align*}	
+			This simply says that the system remains the same, except that immune humans do not compete for resources with uninfected humans and they do not hunt zombies.\\
+			For $Z=0$:
 			\begin{align*}
-				\frac{dH}{dt} &= H(r-c_I-\gamma H)\\
-				\frac{dI}{dt} &= I(r-\gamma(H+I))+c_iH \\
+				\frac{dH}{dt} &= H(r-c_I-\gamma (H+I))\\
+				\frac{dI}{dt} &= c_IH-(a-b_H-\gamma(H+I))I \\
 				\frac{dZ}{dt} &= 0
 			\end{align*}
-			All three situations appear to be plausible.
+			This is simply two competing logistic growth models. All three situations appear to be plausible.
 		\subsubsection{Finding the equilibrium solutions}
-			Excluding the trivial solution (0,0,0) and assuming that $I_0=0$ in all scenarios, there are two potential equilibrium solutions.\\
-			The first can be determined as follows:		
+We can find the equilibrium solutions to this system by looking at the nullclines and where they intersect. The nullclines from setting $\frac{dH}{dt}=0$ are:
+\begin{equation}
+H=0, a-b_H-c_I-\gamma(H+I)-c_zZ=0
+\end{equation}
+For $\frac{dI}{dt}=0$, we have the quadratic form:
+
+\begin{equation}
+c_IH+(r-\gamma(H+I))I = 0
+\end{equation}
+Setting $\frac{dZ}{dt}=0$ gives us:
+\begin{equation}
+Z=0, I = H \left(\frac{c_z-b_z}{b_z}\right)
+\end{equation}
+The easiest way to evaluate the equlibrium points is to start with the nullclines from $\frac{dZ}{dt}=0$ and $\frac{dH}{dt}=0$. $Z=0$ and $H=0$ imply that:
+
+\begin{equation}
+(r-\gamma I)I = 0
+\end{equation}
+Which means that two potential equlibrium solutions are $(0, 0, 0)$ and $(0,\frac{r}{\gamma},0)$. Another equlibrium solution can be found ftom the nullcline of $\frac{dZ}{dt}$. Start with:		
 			\begin{align*}
-				\frac{dZ}{dt}= 0 &= Z (c_ZH-b_z(H+I))\\
-				\Leftrightarrow 0 &= c_ZH-b_z(H+I) \\
 				\Leftrightarrow I &= H \left(\frac{c_z-b_z}{b_z}\right)
 			\end{align*}
-				For simplicity let $d_z = \left(\frac{c_z-b_z}{b_z}\right)$
+				For simplicity let $d_z = \left(\frac{c_z-b_z}{b_z}\right)$. Substitute the above into the nullcline equation from $\frac{dI}{dt}$:
 			\begin{align*}
 				\frac{dI}{dt}= 0 &= I(r-\gamma(H+I))+c_IH \\
 				\Leftrightarrow 0&= H d_z \left(r-\gamma \left(H+d_Z\right)\right)+c_I H\\
 				\Leftrightarrow 0&= -H^2\gamma d_z(1+d_z) + H\left(d_zr+ c_I\right) \\ 
 				\Leftrightarrow 0&= -H \gamma d_z\left(1+d_z\right) +d_z r+ c_I \\
+			\end{align*}
+This gives us:
+			\begin{align*}
 				\Leftrightarrow H &= \frac{d_z +c_I}{\gamma d_z(1+d_z)} \\
 				\Rightarrow I &=  \frac{d_z +c_I}{\gamma (1+d_z)} 
 			\end{align*}
-
+Finally, substitute into the nullcline equation from $\frac{dH}{dt}$ to get $Z$:
 			\begin{align*}
-				\frac{dH}{dt} = 0 &= H(r-c_I-\gamma(H+I)-c_zZ) \\
+				\frac{dH}{dt} = 0 &= r-c_I-\gamma(H+I)-c_zZ\\
 				\Leftrightarrow 0&= r-c_I -\gamma (H+I)-c_z Z\\
 				\Leftrightarrow 0 &= r-c_I - \gamma \left( \frac{d_z +c_I}{\gamma d_z(1+d_z)} +  \frac{d_z +c_I}{\gamma (1+d_z)} \right) - c_Z Z \\
 				\Leftrightarrow Z &= \frac{d_Z(r-c_I-1)-c_I}{d_Z c_Z} \\
 				\Leftrightarrow Z &= \frac{(c_z-b_z)(r-c_z-1)-b_Zc_I}{(c_z-b_z)c_z}
 			\end{align*}
-			To see whether this point is stable for Z:
-			\begin{align*}
-				\left(\frac{dZ}{dt}\right)'= c_Z H -b_Z(H+I) &= 0\\
-				\Leftrightarrow c_Z H - b_Z H-b_ZI &= 0\\
-				\Leftrightarrow \frac{d_Z+c_I}{\gamma d_Z(d_Z+1)}(c_Z-b_Z) - b_Z \frac{d_Z+c_I}{\gamma(d_z+1)} &= 0\\
-				\Leftrightarrow \frac{d_z+c_I}{\gamma d_z(d_z+1)} (c_Z-b_Z) &= b_Z \frac{d_z+C_I}{\gamma (d_Z+1)}\\
-				\Leftrightarrow \frac{1}{d_Z} (c_Z-b_z) &= b_Z\\
-				\Leftrightarrow \frac{1}{\frac{c_z-b_z}{b_z}}(c_z-b_z) &= b_Z\\
-				\Leftrightarrow b_Z &= b_Z 
-			\end{align*}
-			Thus, the point is a saddle point.
-			The second equilibrium solution for H=0 and $I \neq 0$:
-			\begin{align*}
-				\frac{dH}{dt} &=0\\
-				\Rightarrow \frac{dI}{dt} &= I(r-\gamma I) = 0 \\
-				\Leftrightarrow I &= \frac{r}{\gamma}
-				\frac{dZ}{dt} &= -b_z IZ = -b_Z\frac{r}{\gamma}Z &= 0 \\
-				\Rightarrow Z = 0
-			\end{align*}
-			This is assuming all other variables are not zero.
-			\begin{align*}
-				\left(\frac{dI}{dt}\right)' = r- 2\gamma \frac{r}{\gamma} &= -r 
-			\end{align*}
-			Assuming $r>0$ this implies $\left(0,\frac{r}{\gamma}, 0\right)$ is a stable solution.
+
+The equilibrium solutions $(H,I,Z)$ are $(0,0,0)$, $(0,\frac{r}{\gamma},0)$, and $(\frac{d_z +c_I}{\gamma d_z(1+d_z)},  \frac{d_z +c_I}{\gamma (1+d_z)}, \frac{d_Z(r-c_I-1)-c_I}{d_Z c_Z})$ where $d_z = \left(\frac{c_z-b_z}{b_z}\right)$.
+\subsubsection{Stability Analysis}
+We can get a sense for the local stability of each equilibrium point by linearizing the system around that point. The system:
+\begin{equation}
+\frac{dH}{dt} = H(r - c_I-\gamma(H+I))-c_zHZ
+\end{equation}
+
+\begin{equation}
+\frac{dI}{dt} = c_IH+(a-b_H-\gamma(H+I))I
+\end{equation}
+\begin{equation}
+\frac{dZ}{dt} = (c_ZH-b_Z(H+I))Z
+\end{equation}
+Has the Jacobian:
+\begin{equation}
+J = \begin{bmatrix}
+r-2H\gamma - Zc_Z - c_I - \gamma I & -H\gamma & -Hc_Z \\
+-I\gamma + c_I & -2I\gamma + a - b_H - \gamma H & 0 \\
+ Z(-b_Z + c_Z) & -Zb_Z & Hc_Z - b_Z(H + I)
+\end{bmatrix}.
+\end{equation}
+
+For our first equilibrium solution $(0, 0, 0)$, the Jacobian is:
+
+\begin{equation}
+J=\begin{bmatrix} r-c_I& 0 & 0 \\ c_I & a - b_H & 0 \\ 0 & 0 & 0 \end{bmatrix}
+\end{equation}
+Since this is an upper triangular matrix, the eignvalues are the diagonal elements of the matrix. So $\lambda_1=r-c_I$. $\lambda_2=a-b_H$, $\lambda_3=0$. In order for the solution to be stable, all eigenvalues must have negative real parts. In this case, one eigenvalues is always $0$, which makes the linearized analysis indeterminate. However, we can deduce from knowledge of the system that if all populations are $0$, then there will be no changes in the population for small perturbations from that point. Hence, the point is locally stable.
+
+For the second equilibrium solution $(0,\frac{r}{\gamma},0)$, the Jacobian is:
+
+\begin{equation}
+J=\begin{bmatrix} -c_I & 0 & 0 \\ c_I - r & -r & 0 \\ 0 & 0 & -\frac{b_Z r}{\gamma} \end{bmatrix}
+\end{equation}
+
+The eigenvalues are $\lambda_1=-c_I$. $\lambda_2=-r$, and $\lambda_3=-\frac{b_Z r}{\gamma}$. $c_I$, $b_Z$, and $\gamma$ are defined to be positive constants. So the system is stable if $r>0$ or $a>b_H$. This makes sense as if the birth rate is greater than the death rate, for certain starting populations it may be the case the all humans eventually become immune and drive the zombies to extinction.
+
+For the final equilibrium point we will analyze the stability numerically for reasonable values of the bifurcation parameters and starting populations.
+
+\section{Numerical Analysis}
+
+\section{Conclusion}
+
+\section{Appendix}
+
 
 
 \end{document}
