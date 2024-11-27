@@ -47,7 +47,7 @@
 \section{Motivation}
 This report focuses on developing a simple model to to understand the popuation dynamics of the human race in the event of a zombie apocalypse. We model the evolution of three different sub-populations; susceptible humans, immune humans, and zombies. The focus will be on using simple assumptions to model the problem in a tractable manner, and then investigating the behavior of the system under different perturbations of the parameters of interest.
 \section{Problem Definition}
-We will start with a few basic assumptions. Some portion of the human population has been infected with the zombie virus, the origins of which are unknown. All humans are susceptible to being infected by the virus in the beginning. In preparation for such an event, a vaccine was developed pre-emptively and vaccination sites have been set up all over the globe. However, vaccine production and distribution is limited so only a fraction of the population can be vaccinated at any given time. Additionally, vaccinations only work pre-emptively. Once infected by the virus, a person can never be cured. Once vaccinated however, a person can not be infected again. Additionally, immune human beings give birth to immune human beings.
+We will start with a few basic assumptions. Some portion of the human population has been infected with the zombie virus, the origins of which are unknown. All humans are susceptible to being infected by the virus in the beginning. In preparation for such an event, a vaccine was developed pre-emptively and vaccination sites have been set up all over the globe. However, vaccine production and distribution is limited so only a fraction of the population can be vaccinated at any given time. Additionally, vaccinations only work pre-emptively. Once infected by the virus, a person can never be cured. Once vaccinated however, a person can not be infected again. Additionally, immune human beings give birth to susceptible human beings.
 
 The infected population is drawn to uninfected humans and passes on the virus at a certain rate. Zombies are only interested in passing on the virus, and do not kill any humans as part of their attack. Humans on the other hand do hunt zombies and successfully eliminate them at a certain rate. 
 
@@ -68,18 +68,15 @@ The rate in is the natural birth rate of humans denoted by $a$. The rate out has
 \end{itemize}
 The rate equation becomes:
 \begin{equation}
-\frac{dH}{dt} = (a-b_H-c_I-\gamma(H+I)-c_zZ)H
+\frac{dH}{dt} = a(H+I)-b_HH-c_IH-\gamma H(H+I)-c_ZHZ
 \end{equation}
 If we let the $r = a-b_H$, the above can be simplified as:
-\begin{equation}
-\frac{dH}{dt} = H(r - c_I-\gamma(H+I))-c_zHZ
-\end{equation}
 
 \subsection{Immune Humans}
-For immune humans we assume the same natural birth and death rates as susceptible humans. There is also an additional influx of immune human beings from vaccinations. The population equation becomes:
+For immune humans we assume the same natural death rate as susceptible humans. There is also an influx of immune human beings from vaccinations. The population equation becomes:
 
 \begin{equation}
-\frac{dI}{dt} = c_IH+(a-b_H-\gamma(H+I))I
+\frac{dI}{dt} = c_IH-b_HI-\gamma I(H+I)
 \end{equation}
 
 \subsection{Infected Humans}
@@ -95,71 +92,69 @@ For infected humans, the birth rate is the infection rate of new humans $c_ZH$. 
 			A useful way to analyze this system is to look at the values of any two variables holding the third constant or zero.
 			Let $H= 0$, then:
 			\begin{align*}
-				\frac{dH}{dt} &=0\\
-				\frac{dI}{dt} &= I(a-b_H-\gamma I)\\
+				\frac{dH}{dt} &=aI\\
+				\frac{dI}{dt} &= I(-b_H-\gamma I)\\
 				\frac{dZ}{dt} &= -b_z IZ
 			\end{align*}
-			In this case, the immune population will reach carrying capacity over time and the zombie population will decline to zero as they are being hunted. \\
+			In this case, no new immune or infected humans are produced. However, the population of susceptible humans is increasing as the existing immune humans reproduce. \\
 			For $I=0$:
 			\begin{align*}
-				\frac{dH}{dt} &= H(r-c_I-\gamma H)-c_z HZ\\
+				\frac{dH}{dt} &= H(a-b_H-c_I-\gamma H)-c_z HZ\\
 				\frac{dI}{dt} &= c_IH\\
 				\frac{dZ}{dt} &= Z(c_ZH-b_ZH)
 			\end{align*}	
 			This simply says that the system remains the same, except that immune humans do not compete for resources with uninfected humans and they do not hunt zombies.\\
 			For $Z=0$:
 			\begin{align*}
-				\frac{dH}{dt} &= H(r-c_I-\gamma (H+I))\\
-				\frac{dI}{dt} &= c_IH-(a-b_H-\gamma(H+I))I \\
+				\frac{dH}{dt} &= a(H+I)-b_HH-c_IH-\gamma H(H+I)\\
+				\frac{dI}{dt} &= c_IH+(-b_H-\gamma(H+I))I \\
 				\frac{dZ}{dt} &= 0
 			\end{align*}
 			This is simply two competing logistic growth models. All three situations appear to be plausible.
 		\subsubsection{Finding the equilibrium solutions}
-We can find the equilibrium solutions to this system by looking at the nullclines and where they intersect. The nullclines from setting $\frac{dH}{dt}=0$ are:
+We can find the equilibrium solutions to this system by looking at the nullclines and where they intersect. The nullcline from setting $\frac{dH}{dt}=0$ is given by the equation:
 \begin{equation}
-H=0, a-b_H-c_I-\gamma(H+I)-c_zZ=0
+a(H+I)-b_HH-c_IH-\gamma H(H+I)-c_ZHZ=0
 \end{equation}
 For $\frac{dI}{dt}=0$, we have the quadratic form:
 
 \begin{equation}
-c_IH+(r-\gamma(H+I))I = 0
+c_IH+(-b_Z-\gamma(H+I))I = 0
 \end{equation}
 Setting $\frac{dZ}{dt}=0$ gives us:
 \begin{equation}
 Z=0, I = H \left(\frac{c_z-b_z}{b_z}\right)
 \end{equation}
-The easiest way to evaluate the equlibrium points is to start with the nullclines from $\frac{dZ}{dt}=0$ and $\frac{dH}{dt}=0$. $Z=0$ and $H=0$ imply that:
-
-\begin{equation}
-(r-\gamma I)I = 0
-\end{equation}
-Which means that two potential equlibrium solutions are $(0, 0, 0)$ and $(0,\frac{r}{\gamma},0)$. Another equlibrium solution can be found ftom the nullcline of $\frac{dZ}{dt}$. Start with:		
+The easiest way to evaluate the equlibrium points is to start with the nullclines from $\frac{dZ}{dt}=0$. The first solution $Z=0$ is not interesting from the perspective of this model since a world without zombies would not require a vaccination rate, nor a distinction between immune and susceptible humans. Hence, we will analyze  the case when $I = H \left(\frac{c_z-b_z}{b_z}\right)$. For simplicity, we will let $d_z = \left(\frac{c_z-b_z}{b_z}\right)$ so $I=d_ZH$. Substitute this into the equation $\frac{dI}{dt}=0$:
 			\begin{align*}
-				\Leftrightarrow I &= H \left(\frac{c_z-b_z}{b_z}\right)
-			\end{align*}
-				For simplicity let $d_z = \left(\frac{c_z-b_z}{b_z}\right)$. Substitute the above into the nullcline equation from $\frac{dI}{dt}$:
-			\begin{align*}
-				\frac{dI}{dt}= 0 &= I(r-\gamma(H+I))+c_IH \\
-				\Leftrightarrow 0&= H d_z \left(r-\gamma \left(H+d_Z\right)\right)+c_I H\\
-				\Leftrightarrow 0&= -H^2\gamma d_z(1+d_z) + H\left(d_zr+ c_I\right) \\ 
-				\Leftrightarrow 0&= -H \gamma d_z\left(1+d_z\right) +d_z r+ c_I \\
+				\frac{dI}{dt}= 0 &=  c_IH-b_HI-\gamma I(H+I) \\
+				\Leftrightarrow 0&= c_IH-b_Hd_ZI,-\gamma d_ZH(H+d_ZH)\\
 			\end{align*}
 This gives us:
 			\begin{align*}
-				\Leftrightarrow H &= \frac{d_z +c_I}{\gamma d_z(1+d_z)} \\
-				\Rightarrow I &=  \frac{d_z +c_I}{\gamma (1+d_z)} 
+				\Leftrightarrow H=\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)}\\
+				\Rightarrow I =  \frac{c_I-b_Hd_z}{\gamma (1+d_Z))} 
 			\end{align*}
-Finally, substitute into the nullcline equation from $\frac{dH}{dt}$ to get $Z$:
+Finally, substitute both values into the nullcline equation from $\frac{dH}{dt}$ to get $Z$. To simplify, we will start by first substituting $I=d_ZH$:
 			\begin{align*}
-				\frac{dH}{dt} = 0 &= r-c_I-\gamma(H+I)-c_zZ\\
-				\Leftrightarrow 0&= r-c_I -\gamma (H+I)-c_z Z\\
-				\Leftrightarrow 0 &= r-c_I - \gamma \left( \frac{d_z +c_I}{\gamma d_z(1+d_z)} +  \frac{d_z +c_I}{\gamma (1+d_z)} \right) - c_Z Z \\
-				\Leftrightarrow Z &= \frac{d_Z(r-c_I-1)-c_I}{d_Z c_Z} \\
-				\Leftrightarrow Z &= \frac{(c_z-b_z)(r-c_z-1)-b_Zc_I}{(c_z-b_z)c_z}
+				\frac{dH}{dt} = 0 &= a(H+I)-b_HH-c_IH-\gamma H(H+I)-c_ZHZ=0\\
+				\Leftrightarrow 0&= aH(1+d_Z)-b_HH-c_IH-\gamma H^2(1+d_Z)-c_ZHZ
 			\end{align*}
+One of the solutions here is $H=0$, which leads to the trivial equilibrium point $(0,0,0)$. The other solution is given by solving the equation:
 
-The equilibrium solutions $(H,I,Z)$ are $(0,0,0)$, $(0,\frac{r}{\gamma},0)$, and $(\frac{d_z +c_I}{\gamma d_z(1+d_z)},  \frac{d_z +c_I}{\gamma (1+d_z)}, \frac{d_Z(r-c_I-1)-c_I}{d_Z c_Z})$ where $d_z = \left(\frac{c_z-b_z}{b_z}\right)$.
+\begin{align*}
+a(1+d_Z)-b_H-c_I-\gamma H(1+d_Z)-c_ZZ = 0\\
+\Leftrightarrow c_ZZ = a(1+d_Z)-b_H-c_I-\gamma H(1+d_Z)
+\end{align*}
+Substitute in $H=\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)}$:
+\begin{align*}
+c_ZZ&=a(1+d_Z)-b_H-c_I-\frac{c_I-b_Hd_Z}{d_Z}\\
+\Leftrightarrow Z&=\frac{(ad_Z-c_I)(1+d_Z)}{c_Zd_Z}
+\end{align*}
+The equilibrium solutions $(H,I,Z)$ are $(0,0,0)$ and $(\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)},  \frac{c_I-b_Hd_z}{\gamma (1+d_Z))} , \frac{(ad_Z-c_I)(1+d_Z)}{c_Zd_Z})$ where $d_z = \left(\frac{c_z-b_z}{b_z}\right)$.
 \subsubsection{Stability Analysis}
+[TO BE UPDATED]
+
 We can get a sense for the local stability of each equilibrium point by linearizing the system around that point. The system:
 \begin{equation}
 \frac{dH}{dt} = H(r - c_I-\gamma(H+I))-c_zHZ
