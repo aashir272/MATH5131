@@ -153,15 +153,14 @@ c_ZZ&=a(1+d_Z)-b_H-c_I-\frac{c_I-b_Hd_Z}{d_Z}\\
 \end{align*}
 The equilibrium solutions $(H,I,Z)$ are $(0,0,0)$ and $(\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)},  \frac{c_I-b_Hd_z}{\gamma (1+d_Z))} , \frac{(ad_Z-c_I)(1+d_Z)}{c_Zd_Z})$ where $d_z = \left(\frac{c_z-b_z}{b_z}\right)$.
 \subsubsection{Stability Analysis}
-[TO BE UPDATED]
 
 We can get a sense for the local stability of each equilibrium point by linearizing the system around that point. The system:
 \begin{equation}
-\frac{dH}{dt} = H(r - c_I-\gamma(H+I))-c_zHZ
+\frac{dH}{dt} = a(H+I)-b_HH-c_IH-\gamma H(H+I)-c_ZHZ
 \end{equation}
 
 \begin{equation}
-\frac{dI}{dt} = c_IH+(a-b_H-\gamma(H+I))I
+\frac{dI}{dt} = c_IH-b_HI-\gamma I(H+I)
 \end{equation}
 \begin{equation}
 \frac{dZ}{dt} = (c_ZH-b_Z(H+I))Z
@@ -169,8 +168,8 @@ We can get a sense for the local stability of each equilibrium point by lineariz
 Has the Jacobian:
 \begin{equation}
 J = \begin{bmatrix}
-r-2H\gamma - Zc_Z - c_I - \gamma I & -H\gamma & -Hc_Z \\
--I\gamma + c_I & -2I\gamma + a - b_H - \gamma H & 0 \\
+r-2H\gamma - Zc_Z - c_I - \gamma I & r-H\gamma & -Hc_Z \\
+-I\gamma + c_I & -2I\gamma - b_H - \gamma H & 0 \\
  Z(-b_Z + c_Z) & -Zb_Z & Hc_Z - b_Z(H + I)
 \end{bmatrix}.
 \end{equation}
@@ -178,19 +177,39 @@ r-2H\gamma - Zc_Z - c_I - \gamma I & -H\gamma & -Hc_Z \\
 For our first equilibrium solution $(0, 0, 0)$, the Jacobian is:
 
 \begin{equation}
-J=\begin{bmatrix} r-c_I& 0 & 0 \\ c_I & a - b_H & 0 \\ 0 & 0 & 0 \end{bmatrix}
+J=\begin{bmatrix} r-c_I& 0 & 0 \\ c_I & - b_H & 0 \\ 0 & 0 & 0 \end{bmatrix}
 \end{equation}
-Since this is an upper triangular matrix, the eignvalues are the diagonal elements of the matrix. So $\lambda_1=r-c_I$. $\lambda_2=a-b_H$, $\lambda_3=0$. In order for the solution to be stable, all eigenvalues must have negative real parts. In this case, one eigenvalues is always $0$, which makes the linearized analysis indeterminate. However, we can deduce from knowledge of the system that if all populations are $0$, then there will be no changes in the population for small perturbations from that point. Hence, the point is locally stable.
+Since this is an lower triangular matrix, the eigenvalues are the diagonal elements of the matrix. So $\lambda_1=r-c_I$. $\lambda_2=-b_H$, $\lambda_3=0$. In order for the solution to be stable, all eigenvalues must have negative real parts. In this case, one eigenvalues is always $0$, which makes the linearized analysis indeterminate. However, we can deduce from knowledge of the system that if all populations are $0$, then there will be no changes in the population for small perturbations from that point. Hence, the point is locally stable.
 
-For the second equilibrium solution $(0,\frac{r}{\gamma},0)$, the Jacobian is:
+Due to the complexity of the Jacobian and the second equilibrium solution, $(\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)},  \frac{c_I-b_Hd_z}{\gamma (1+d_Z))} , \frac{(ad_Z-c_I)(1+d_Z)}{c_Zd_Z})$ where $d_z = \left(\frac{c_z-b_z}{b_z}\right)$, we choose to instead examine the Jacobian under reasonable parameter values. Our chosen values are:
 
 \begin{equation}
-J=\begin{bmatrix} -c_I & 0 & 0 \\ c_I - r & -r & 0 \\ 0 & 0 & -\frac{b_Z r}{\gamma} \end{bmatrix}
+(a,b_h,\gamma,c_i,c_z,b_z)=(1.5,0.2,0.01,0.5,0.02,0.01)
 \end{equation}
 
-The eigenvalues are $\lambda_1=-c_I$. $\lambda_2=-r$, and $\lambda_3=-\frac{b_Z r}{\gamma}$. $c_I$, $b_Z$, and $\gamma$ are defined to be positive constants. So the system is stable if $r>0$ or $a>b_H$. This makes sense as if the birth rate is greater than the death rate, for certain starting populations it may be the case the all humans eventually become immune and drive the zombies to extinction.
+Evaluating $H$, $I$, and $Z$ for the equilibrium solution with these parameter values, we get:
 
-For the final equilibrium point we will analyze the stability numerically for reasonable values of the bifurcation parameters and starting populations.
+\begin{equation}
+    H = \frac{0.5-0.2\cdot1}{0.01\cdot1\cdot(1+1)} = 15
+\end{equation}
+\begin{equation}
+    I = \frac{0.5-0.2\cdot1}{0.01\cdot(1+1)} = 15
+\end{equation}
+\begin{equation}
+    Z = \frac{(1.5\cdot1-0.5)(1+1)}{0.02\cdot1} = 100
+\end{equation}
+
+Substituting the parameter values and the values of $H$, $I$, and $Z$ into the Jacobian, we have:
+
+$$
+J=\begin{bmatrix} 1.5-0.2-0.5-0.3-0.15-2 & 1.5-0.2-0.15 & -0.3 \\ 0.5 - 0.15 & -0.2-0.3-0.15 & 0 \\ 2-1 & 1 & 0.3-0.15-0.15 \end{bmatrix}
+$$
+
+$$
+J=\begin{bmatrix} -1.65 & 1.15 & -0.3 \\ 0.35 & -0.65 & 0 \\ 1 & 1 & 0 \end{bmatrix}
+$$
+
+The eigenvalues are approximately $\lambda_1=-1.8664$, $\lambda_2=-0.2168+0.3372i$, and $\lambda_3=-0.2168-0.3372i$. Because the real component of each of these eigenvalues is negative, the equilibrium solution is \textbf{stable} for the given parameter values.
 
 \section{Numerical Analysis}
 
