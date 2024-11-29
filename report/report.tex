@@ -86,7 +86,7 @@ For infected humans, the birth rate is the infection rate of new humans $c_ZH$. 
 \frac{dZ}{dt} = (c_ZH-b_Z(H+I))Z
 \end{equation}
 
-\section{Stability Analysis}
+\section{Analysis}
 	\subsection{Analyzing the system analytically}
 		\subsubsection{Validity of the model}
 			A useful way to analyze this system is to look at the values of any two variables holding the third constant or zero.
@@ -128,12 +128,12 @@ Z=0, I = H \left(\frac{c_z-b_z}{b_z}\right)
 The easiest way to evaluate the equlibrium points is to start with the nullclines from $\frac{dZ}{dt}=0$. The first solution $Z=0$ is not interesting from the perspective of this model since a world without zombies would not require a vaccination rate, nor a distinction between immune and susceptible humans. Hence, we will analyze  the case when $I = H \left(\frac{c_z-b_z}{b_z}\right)$. For simplicity, we will let $d_z = \left(\frac{c_z-b_z}{b_z}\right)$ so $I=d_ZH$. Substitute this into the equation $\frac{dI}{dt}=0$:
 			\begin{align*}
 				\frac{dI}{dt}= 0 &=  c_IH-b_HI-\gamma I(H+I) \\
-				\Leftrightarrow 0&= c_IH-b_Hd_ZI,-\gamma d_ZH(H+d_ZH)\\
+				\Leftrightarrow 0&= c_IH-b_Hd_ZH,-\gamma d_ZH(H+d_ZH)\\
 			\end{align*}
 This gives us:
 			\begin{align*}
 				\Leftrightarrow H=\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)}\\
-				\Rightarrow I =  \frac{c_I-b_Hd_z}{\gamma (1+d_Z))} 
+				\Rightarrow I =  \frac{c_I-b_Hd_z}{\gamma (1+d_Z)} 
 			\end{align*}
 Finally, substitute both values into the nullcline equation from $\frac{dH}{dt}$ to get $Z$. To simplify, we will start by first substituting $I=d_ZH$:
 			\begin{align*}
