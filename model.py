@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 a =     [1.5, 1.5, 1.5, 1.5 ] # birth rate humans
 b_h =   [0.2, 0.2, 0.2, 0.2 ] # death rate humans
 g =     [0.01, 0.01, 0.01, 0.01]   # gamma capacity factor
-c_i =   [0.5,  0.7, 0.5, 0.5]  # immunization rate
-c_z =   [0.02, 0.02, 0.03, 0.02]   # zombification rate
+c_i =   [0.5,  2, 0.5, 0.5]  # immunization rate
+c_z =   [0.02, 0.02, 0.01, 0.02]   # zombification rate
 b_z =   [0.01, 0.01, 0.01, 0.015] # death rate zombies
 
 
@@ -59,7 +59,7 @@ Ie.append( solution2[:,1])
 Ze.append( solution2[:,2])
 
 #increased zombiefication 
-solution3 = odeint(model, [1,1,1], t, args= (a[2],b_h[2],g[2], c_i[2], c_z[2], b_z[2]))
+solution3 = odeint(model, [1,1,100], t, args= (a[2],b_h[2],g[2], c_i[2], c_z[2], b_z[2]))
 He.append( solution3[:,0])
 Ie.append( solution3[:,1])
 Ze.append( solution3[:,2])
@@ -82,7 +82,7 @@ plt.plot(t, Z[0], label='Zombies (Z)', color='green')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.title('Base case 1')
+plt.title('Base case')
 plt.grid(True)
 
 plt.subplot(4, 2, 2)
@@ -104,7 +104,7 @@ plt.plot(t, Z[1], label='Zombies (Z)', color='green')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.title('increased immunization')
+plt.title('increased immunization: 2')
 plt.grid(True)
 
 plt.subplot(4, 2, 4)
@@ -114,7 +114,7 @@ plt.plot(t, Ze[1], label='Zombies (Z)', color='green')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.title('increased immunization extreme')
+plt.title('increased immunization:2')
 plt.grid(True)
 
 
@@ -126,7 +126,7 @@ plt.plot(t, Z[2], label='Zombies (Z)', color='green')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.title('increased zombification')
+plt.title('decreased zombification: 0.01')
 plt.grid(True)
 
 plt.subplot(4, 2, 6)
@@ -136,7 +136,7 @@ plt.plot(t, Ze[2], label='Zombies (Z)', color='green')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.title('increased zombification extreme case')
+plt.title('decreased zombification: 0.01')
 plt.grid(True)
 
 
@@ -148,7 +148,7 @@ plt.plot(t, Z[3], label='Zombies (Z)', color='green')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.title('increased zombie kill rate')
+plt.title('increased zombie kill rate: 0.015')
 plt.grid(True)
 
 plt.subplot(4, 2, 8)
@@ -158,7 +158,7 @@ plt.plot(t, Ze[3], label='Zombies (Z)', color='green')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
-plt.title('increased zombie kill rate')
+plt.title('increased zombie kill rate: 0.015')
 plt.grid(True)
 
 

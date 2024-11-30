@@ -45,7 +45,7 @@
 \tableofcontents
 \pagebreak
 \section{Motivation}
-This report focuses on developing a simple model to to understand the popuation dynamics of the human race in the event of a zombie apocalypse. We model the evolution of three different sub-populations; susceptible humans, immune humans, and zombies. The focus will be on using simple assumptions to model the problem in a tractable manner, and then investigating the behavior of the system under different perturbations of the parameters of interest.
+This report focuses on developing a simple model to to understand the population dynamics of the human race in the event of a zombie apocalypse. We model the evolution of three different sub-populations; susceptible humans, immune humans, and zombies. The focus will be on using simple assumptions to model the problem in a tractable manner, and then investigating the behavior of the system under different perturbations of the parameters of interest.
 \section{Problem Definition}
 We will start with a few basic assumptions. Some portion of the human population has been infected with the zombie virus, the origins of which are unknown. All humans are susceptible to being infected by the virus in the beginning. In preparation for such an event, a vaccine was developed pre-emptively and vaccination sites have been set up all over the globe. However, vaccine production and distribution is limited so only a fraction of the population can be vaccinated at any given time. Additionally, vaccinations only work pre-emptively. Once infected by the virus, a person can never be cured. Once vaccinated however, a person can not be infected again. Additionally, immune human beings give birth to susceptible human beings.
 
@@ -212,11 +212,26 @@ $$
 The eigenvalues are approximately $\lambda_1=-1.8664$, $\lambda_2=-0.2168+0.3372i$, and $\lambda_3=-0.2168-0.3372i$. Because the real component of each of these eigenvalues is negative, the equilibrium solution is \textbf{stable} for the given parameter values.
 
 \section{Numerical Analysis}
+The stability of this equilibrium solution can also be seen in a numerical approximation. Let's assume a population of 100 regular humans, no immune and one zombie. The following values will remain fixed for the following examples: $\gamma= 0.01,$ birth rate= 1.5, death rate humans = 0.2. For the base case let's assume an immunization rate of 0.5, zombification rate of 0.02, zombie kill rate of 0.01. This leads to a scenario where zombies dominate over the human population:\\
+\includegraphics[width=\textwidth]{base case.png}. \\
+Even when there are more zombies than humans to begin with, humans are not eradicated. As can be seen below, the zombie population stabilizes at 100 and immune and non-immune humans stabilize at 15.\\
+\includegraphics[width=\textwidth]{extreme case.png}.\\
+\subsection{Modifications}
+In order to increase chances of survival for humanity, there are several factors that can be improved. \\
+First, let's assume that humans manage to distribute vaccines faster, that is, the immunization rate is increased. For instance, if instead of an immunization rate of 0.5 we increase it to 2, then the zombie population dies out, even if there are only 1 human and 100 zombies to start with:
+\\
+\includegraphics[width= \textwidth]{increased immunization.png}
+\\
+The zombification rate, however, has an even greater effect. Say, humans manage to build safer shelters, wash their hands after contact with a zombie or manage to contain zombies in specific areas, chances of survival go up. Even if zombies are infecting people with a rate of 0.01 insteadof 0.02, the human population consistently wins over the zombies.\\
+\includegraphics[width= \textwidth]{zombification.png}\\
+The highest impact has an increased kill rate, however, has the most significant impact. By killing at a rate of 0.015 instead of 0.01, humanity can eradicate the zombie population:\\
+\includegraphics[width= \textwidth]{zombie kill rate.png}\\
+Thus, in the case of an apocalypse, humanity should first kill more zombies, then limit the spread by building better shelters and lastly focus on increasing vaccination rates, since this rate would have to be increased by factor 4 to see a significant effect.
 
 \section{Conclusion}
 
 \section{Appendix}
 
-
+\includegraphics[width=\textwidth]{comparison of apocalypse 2.png}
 
 \end{document}
