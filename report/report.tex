@@ -30,10 +30,7 @@
 \usepackage{wasysym}
 \usepackage{stmaryrd}
 
-
-
-
-\title{Modeling Population Dynamics in a Zombie Apocalypse with Dynamical Systems Theory} % Should probably change this
+\title{Modeling Population Dynamics in a Zombie Apocalypse with Dynamical Systems Theory}
 
 \date{\today}
 
@@ -87,8 +84,7 @@ For infected humans, the birth rate is the infection rate of new humans $c_ZH$. 
 \end{equation}
 
 \section{Analysis}
-	\subsection{Analyzing the system analytically}
-		\subsubsection{Validity of the model}
+		\subsection{Validity of the model}
 			A useful way to analyze this system is to look at the values of any two variables holding the third constant or zero.
 			Let $H= 0$, then:
 			\begin{align*}
@@ -111,7 +107,7 @@ For infected humans, the birth rate is the infection rate of new humans $c_ZH$. 
 				\frac{dZ}{dt} &= 0
 			\end{align*}
 			This is simply two competing logistic growth models. All three situations appear to be plausible.
-		\subsubsection{Finding the equilibrium solutions}
+		\subsection{Finding the equilibrium solutions}
 We can find the equilibrium solutions to this system by looking at the nullclines and where they intersect. The nullcline from setting $\frac{dH}{dt}=0$ is given by the equation:
 \begin{equation}
 a(H+I)-b_HH-c_IH-\gamma H(H+I)-c_ZHZ=0
@@ -152,7 +148,7 @@ c_ZZ&=a(1+d_Z)-b_H-c_I-\frac{c_I-b_Hd_Z}{d_Z}\\
 \Leftrightarrow Z&=\frac{(ad_Z-c_I)(1+d_Z)}{c_Zd_Z}
 \end{align*}
 The equilibrium solutions $(H,I,Z)$ are $(0,0,0)$ and $(\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)},  \frac{c_I-b_Hd_z}{\gamma (1+d_Z))} , \frac{(ad_Z-c_I)(1+d_Z)}{c_Zd_Z})$ where $d_z = \left(\frac{c_z-b_z}{b_z}\right)$.
-\subsubsection{Stability Analysis}
+\subsection{Stability analysis}
 
 We can get a sense for the local stability of each equilibrium point by linearizing the system around that point. The system:
 \begin{equation}
@@ -179,7 +175,7 @@ For our first equilibrium solution $(0, 0, 0)$, the Jacobian is:
 \begin{equation}
 J=\begin{bmatrix} r-c_I& 0 & 0 \\ c_I & - b_H & 0 \\ 0 & 0 & 0 \end{bmatrix}
 \end{equation}
-Since this is an lower triangular matrix, the eigenvalues are the diagonal elements of the matrix. So $\lambda_1=r-c_I$. $\lambda_2=-b_H$, $\lambda_3=0$. In order for the solution to be stable, all eigenvalues must have negative real parts. In this case, one eigenvalues is always $0$, which makes the linearized analysis indeterminate. However, we can deduce from knowledge of the system that if all populations are $0$, then there will be no changes in the population for small perturbations from that point. Hence, the point is locally stable.
+Since this is an lower triangular matrix, the eigenvalues are the diagonal elements of the matrix. So $\lambda_1=r-c_I$. $\lambda_2=-b_H$, $\lambda_3=0$. In order for the solution to be stable, all eigenvalues must have negative real parts. In this case, one eigenvalues is always $0$, which makes the linearized analysis indeterminate.
 
 Due to the complexity of the Jacobian and the second equilibrium solution, $(\frac{c_I-b_Hd_z}{\gamma d_Z(1+d_Z)},  \frac{c_I-b_Hd_z}{\gamma (1+d_Z))} , \frac{(ad_Z-c_I)(1+d_Z)}{c_Zd_Z})$ where $d_z = \left(\frac{c_z-b_z}{b_z}\right)$, we choose to instead examine the Jacobian under reasonable parameter values. Our chosen values are:
 
@@ -212,26 +208,31 @@ $$
 The eigenvalues are approximately $\lambda_1=-1.8664$, $\lambda_2=-0.2168+0.3372i$, and $\lambda_3=-0.2168-0.3372i$. Because the real component of each of these eigenvalues is negative, the equilibrium solution is \textbf{stable} for the given parameter values.
 
 \section{Numerical Analysis}
+
+\subsection{Base case}
 The stability of this equilibrium solution can also be seen in a numerical approximation. Let's assume a population of 100 regular humans, no immune and one zombie. The following values will remain fixed for the following examples: $\gamma= 0.01,$ birth rate= 1.5, death rate humans = 0.2. For the base case let's assume an immunization rate of 0.5, zombification rate of 0.02, zombie kill rate of 0.01. This leads to a scenario where zombies dominate over the human population:\\
 \includegraphics[width=\textwidth]{base case.png}. \\
 Even when there are more zombies than humans to begin with, humans are not eradicated. As can be seen below, the zombie population stabilizes at 100 and immune and non-immune humans stabilize at 15.\\
 \includegraphics[width=\textwidth]{extreme case.png}.\\
 \subsection{Modifications}
-In order to increase chances of survival for humanity, there are several factors that can be improved. \\
+In order to increase chances of survival for humanity, there are several factors that can be improved.
+
 First, let's assume that humans manage to distribute vaccines faster, that is, the immunization rate is increased. For instance, if instead of an immunization rate of 0.5 we increase it to 2, then the zombie population dies out, even if there are only 1 human and 100 zombies to start with:
 \\
 \includegraphics[width= \textwidth]{increased immunization.png}
 \\
 The zombification rate, however, has an even greater effect. Say, humans manage to build safer shelters, wash their hands after contact with a zombie or manage to contain zombies in specific areas, chances of survival go up. Even if zombies are infecting people with a rate of 0.01 insteadof 0.02, the human population consistently wins over the zombies.\\
 \includegraphics[width= \textwidth]{zombification.png}\\
-The highest impact has an increased kill rate, however, has the most significant impact. By killing at a rate of 0.015 instead of 0.01, humanity can eradicate the zombie population:\\
+Increasing the kill rate, however, has the most significant impact. By killing at a rate of 0.015 instead of 0.01, humanity can eradicate the zombie population:\\
 \includegraphics[width= \textwidth]{zombie kill rate.png}\\
 Thus, in the case of an apocalypse, humanity should first kill more zombies, then limit the spread by building better shelters and lastly focus on increasing vaccination rates, since this rate would have to be increased by factor 4 to see a significant effect.
 
 \section{Conclusion}
 
-\section{Appendix}
+Here, we have shown that a simple model of population dynamics in a zombie apocalypse can give deep insights on the steady state behavior of the sub-populations under various parameter perturbations. We use the model to determine the effects of multiple interventions that would help humanity survive this pandemic and find that increasing the kill rate of the zombies leads to the greatest chances of success. The stability of the model is sensitive to the input parameters which would in reality need to be calibrated with live data.
 
-\includegraphics[width=\textwidth]{comparison of apocalypse 2.png}
+Future work could extend this model to try and make it progressively more realistic. For example, one could argue that as a policy decision, only immune human beings should be allowed to hunt zombies. The fewer humans that are hunting zombies, the greater the hunting rate parameter would need to be to wipe out the zombie population. Additionally, the assumption of zombies not having a natural death rate is likely not a realistic one since it violates the law of conservation of energy. We can easily add this as well as a carrying capacity for the zombie population to make the model more consistent with real world expectations. Finally, it is also possible that the zombies do not just infect human beings, but on occasion also kill them. This can easily be added as an additional death rate term in both human population equations.
+
+Despite the limitations of the model, the conclusions we make are all directionally accurate. All three interventions we investigate result in the collapse of the zombie population at specific parameter values. This illustrates the power of using simple models to approximate complex real-life scenarios.
 
 \end{document}
